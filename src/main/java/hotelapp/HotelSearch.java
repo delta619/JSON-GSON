@@ -1,8 +1,10 @@
 package hotelapp;
 
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /** The main class for project 1.
  * The main function should take the following 4 command line arguments:
@@ -19,6 +21,23 @@ public class HotelSearch {
     public static void main(String[] args) {
         // FILL IN CODE:
         // Note that you are expected to create additional classes and methods
+        HashMap<String, String> arg_map =  handleCommandLineArgs(args);  // arguments handled
+
+        inputFiles(arg_map.get("-hotels"), arg_map.get("-reviews"));
+        System.out.println(arg_map);
+
+
+    }
+    static void inputFiles(String hotelsFilePath, String reviewsFilePath){
+
+        FileProcessor fp = new FileProcessor();
+
+        ArrayList hotels =  fp.parseHotels(hotelsFilePath);
+        System.out.println(hotels);
+
+
+    }
+    static HashMap<String, String> handleCommandLineArgs(String[] args){
         HashMap<String, String> arg_map = new HashMap<>();
         try {
             for (int i = 0; i < args.length; i += 2) {
@@ -30,13 +49,8 @@ public class HotelSearch {
                 throw new Exception("Some error occurred") ;
             }
         }catch (Exception e){
-            System.out.println(e.getMessage());
-            return;
+            System.out.println("Invalid arguments, please try again.");
         }
-
-        System.out.println(arg_map);
-
+        return arg_map;
     }
-
-
 }
