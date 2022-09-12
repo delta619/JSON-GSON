@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class HotelDriver {
     private HashMap<String, Hotel> hotelMap = new HashMap<>();
-
     HotelDriver(Hotel[] hotels){
         this.setHotels(hotels);
     }
@@ -18,6 +17,9 @@ public class HotelDriver {
 
     public void findHotelId(String hotelId){
         Hotel hotel = this.hotelMap.get(hotelId);
+        if(hotel == null){
+            System.out.println("No Hotel found with id : "+hotelId);
+        }
         System.out.println("The hotel details are:");
         System.out.println(hotel);
     }

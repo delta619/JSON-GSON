@@ -2,7 +2,12 @@ package hotelapp;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -28,7 +33,9 @@ public class HotelSearch {
 
         FileProcessor fp = new FileProcessor();
         Hotel[] hotels = fp.parseHotels(arg_map.get("-hotels"));
+        fp.parseReviews(arg_map.get("-reviews"));
         HotelDriver hotelDriver = new HotelDriver(hotels);
+        ReviewDriver reviewDriver = new ReviewDriver();
 
         try{
             Scanner sc = new Scanner(System.in);
@@ -40,7 +47,7 @@ public class HotelSearch {
                             hotelDriver.findHotelId(instruction[1]);
                             break;
                         case "findReviews":
-                            hotelDriver.findReviews(instruction[1]);
+                            reviewDriver.findReviewsByHotelId(instruction[1]);
                             break;
                         case "findWord":
                             hotelDriver.findWord(instruction[1]);
@@ -60,6 +67,7 @@ public class HotelSearch {
             System.out.println("Something went wrong: " + e.getMessage());
         }
     }
+
 
     static HashMap<String, String> handleCommandLineArgs(String[] args){
         HashMap<String, String> arg_map = new HashMap<>();
