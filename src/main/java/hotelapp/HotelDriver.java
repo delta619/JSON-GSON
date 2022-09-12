@@ -1,0 +1,31 @@
+package hotelapp;
+
+import java.util.HashMap;
+
+public class HotelDriver {
+    private HashMap<String, Hotel> hotelMap = new HashMap<>();
+
+    HotelDriver(Hotel[] hotels){
+        this.setHotels(hotels);
+    }
+
+    public void setHotels(Hotel[] hotels){
+
+        for(Hotel hotel: hotels){
+            this.hotelMap.put(hotel.getId(), hotel);
+        }
+    }
+
+    public void findHotelId(String hotelId){
+        Hotel hotel = this.hotelMap.get(hotelId);
+        System.out.println("The hotel details are:");
+        System.out.println(hotel);
+    }
+    public void findReviews(String hotelId){
+
+    }
+
+    public void findWord(String word){
+
+    }
+}

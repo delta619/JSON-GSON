@@ -1,10 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="conf" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="11" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="hotelapp.HotelSearch" />
     <module name="project1_cs601Fall22" />
-    <option name="PROGRAM_PARAMETERS" value="-hotels input/hotels/hotels2000.json -reviews input/reviews" />
+    <option name="PROGRAM_PARAMETERS" value="-hotels input/hotels/hotels200.json -reviews input/reviews" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

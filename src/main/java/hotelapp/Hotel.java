@@ -1,19 +1,47 @@
 package hotelapp;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.security.Key;
+
 public class Hotel {
 
+    @SerializedName("f")
     private String name;
-    private int id;
-    private double lat;
-    private double lon;
+    private String id;
+    @SerializedName("ad")
     private String address;
 
-    Hotel(String name, int id, double lat, double lon, String address){
+    private LL ll;
+    static class LL {
+        public String lat;
+        public String lng;
+    }
+
+    Hotel(String name, String id, String address){
         this.name = name;
         this.id = id;
-        this.lat = lat;
-        this.lon = lon;
         this.address = address;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public LL getLL(){
+        return this.ll;
+    }
+
+    public String getAddress(){
+        return this.address;
+    }
+
+    @Override
+    public String toString() {
+        return String.join(",", this.id, this.name,this.address);
+    }
 }
