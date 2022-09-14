@@ -36,13 +36,18 @@ public class Review implements Comparable<Review> {
     public String[] getReviewTextWords(){
         return this.reviewText.split(" ");
     }
-
+    public String getUserNickname(){
+        if(this.userNickname == null){
+            return "NA";
+        }
+        return this.userNickname;
+    }
     public Date getReviewSubmissionTime(){
         return this.reviewSubmissionTime;
     }
     @Override
     public String toString() {
-        return String.join("\n\t", "\tHotel id - "+ this.getHotelId(), "Review id -"+this.getReviewId(), "Overall Rating - "+ this.ratingOverall,"Title - " + this.title,"Review text - " + this.reviewText,"Nickname - " + userNickname,"Submission time - "+this.reviewSubmissionTime);
+        return String.join("\n\t", "\tHotel id - "+ this.getHotelId(), "Review id -"+this.getReviewId(), "Overall Rating - "+ this.ratingOverall,"Title - " + this.title,"Review text - " + this.reviewText,"Nickname - " + this.getUserNickname(),"Submission time - "+this.reviewSubmissionTime);
     }
 
     public String getReviewText() {

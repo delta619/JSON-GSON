@@ -33,12 +33,10 @@ public class ReviewDriver {
                     TreeSet<Review> emptyReviewsTree = new TreeSet<Review>(new Comparator<Review>() {
                         public int compare(Review r1, Review r2)
                                 {
-//                                    return r1.getReviewId().compareTo(r2.getReviewId());
-
                                     if(Helper.countWords(r1.getReviewText(), word) == Helper.countWords(r2.getReviewText(), word)){
-                                        return 0;
+                                        return r2.getReviewSubmissionTime().compareTo(r1.getReviewSubmissionTime());
                                     }
-                                    return Helper.countWords(r1.getReviewText(), word) - Helper.countWords(r2.getReviewText(), word);
+                                    return Helper.countWords(r2.getReviewText(), word) - Helper.countWords(r1.getReviewText(), word);
                                 }
                             });
                     word_to_reviews.put(word, emptyReviewsTree);
@@ -49,7 +47,7 @@ public class ReviewDriver {
     }
     public void findReviewsByHotelId(String hotelId){
         ArrayList<Review> reviews = hotelReviewMap.get(hotelId);
-        reviews.sort(Comparator.comparing(Review::getReviewSubmissionTime));
+        reviews.sort((r1, r2)-> r2.getReviewSubmissionTime().compareTo(r1.getReviewSubmissionTime()));
             for(Review review: reviews){
                 System.out.println(review);
                 System.out.println("**********************");
@@ -57,7 +55,13 @@ public class ReviewDriver {
     }
 
     public void findWords(String word){
-        System.out.println(word_to_reviews.get(word).size());
+
+
+        for(Review review: word_to_reviews.get(word)){
+            System.out.println(review);
+            System.out.println("\tWord count of "+word+" - "+Helper.countWords(review.getReviewText(), word));
+            System.out.println("*****************");
+        }
     }
 
 }
