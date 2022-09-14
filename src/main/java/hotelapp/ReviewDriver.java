@@ -33,7 +33,12 @@ public class ReviewDriver {
                     TreeSet<Review> emptyReviewsTree = new TreeSet<Review>(new Comparator<Review>() {
                         public int compare(Review r1, Review r2)
                                 {
-                                    return r1.getReviewId().compareTo(r2.getReviewId());
+//                                    return r1.getReviewId().compareTo(r2.getReviewId());
+
+                                    if(Helper.countWords(r1.getReviewText(), word) == Helper.countWords(r2.getReviewText(), word)){
+                                        return 0;
+                                    }
+                                    return Helper.countWords(r1.getReviewText(), word) - Helper.countWords(r2.getReviewText(), word);
                                 }
                             });
                     word_to_reviews.put(word, emptyReviewsTree);
@@ -46,6 +51,7 @@ public class ReviewDriver {
         ArrayList<Review> reviews = hotelReviewMap.get(hotelId);
             for(Review review: reviews){
                 System.out.println(review);
+                System.out.println("**********************");
             }
     }
 

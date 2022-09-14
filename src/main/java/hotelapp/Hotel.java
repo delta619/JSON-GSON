@@ -35,13 +35,18 @@ public class Hotel {
     public LL getLL(){
         return this.ll;
     }
-
+    public String getLatitude(){
+        return this.ll.lat;
+    }
+    public String getLongitude(){
+        return this.ll.lng;
+    }
     public String getAddress(){
         return this.address;
     }
 
     @Override
     public String toString() {
-        return String.join(",", this.id, this.name,this.address);
+        return ("\tID - "+ this.getId() + "\n\tAddress - "+ this.getAddress() + "\n\tLatitude - "+ this.getLatitude()+ "\n\tLongitude - "+this.getLongitude());
     }
 }

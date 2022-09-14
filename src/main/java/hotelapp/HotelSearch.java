@@ -40,6 +40,7 @@ public class HotelSearch {
         try{
             Scanner sc = new Scanner(System.in);
             do{
+                System.out.println("\nPlease enter any of the below instructions.\nfind <hotelID>, findReviews <hotelID>, findWord <word>  or press Q to quit.");
                 String[] instruction = sc.nextLine().split(" ");
                 if(instruction.length == 2){
                     switch (instruction[0]){
@@ -56,7 +57,7 @@ public class HotelSearch {
                             System.out.println("Please enter a valid instruction.");
                     }
                 }else {
-                    if(instruction.length == 1 && instruction[0].equals("q")){
+                    if(instruction.length == 1 && instruction[0].toLowerCase().equals("q")){
                         System.out.println("Good bye.");
                         return;
                     }
