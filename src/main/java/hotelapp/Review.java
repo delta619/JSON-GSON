@@ -3,8 +3,9 @@ package hotelapp;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class Review {
+public class Review implements Comparable<Review> {
     private String hotelId;
     private String reviewId;
     private int ratingOverall;
@@ -31,9 +32,21 @@ public class Review {
         return this.hotelId;
     }
 
-
+    public String[] getReviewTextWords(){
+        return this.reviewText.split(" ");
+    }
     @Override
     public String toString() {
         return String.join(",", this.getReviewId(), this.getHotelId(), this.title);
+    }
+
+    public String getReviewText() {
+        return this.reviewText;
+    }
+
+
+    @Override
+    public int compareTo(Review o) {
+        return getReviewText().compareTo(o.getReviewText());
     }
 }

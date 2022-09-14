@@ -50,7 +50,7 @@ public class HotelSearch {
                             reviewDriver.findReviewsByHotelId(instruction[1]);
                             break;
                         case "findWord":
-                            hotelDriver.findWord(instruction[1]);
+                            reviewDriver.findWords(instruction[1]);
                             break;
                         default:
                             System.out.println("Please enter a valid instruction.");

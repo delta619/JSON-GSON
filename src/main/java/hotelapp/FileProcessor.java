@@ -80,6 +80,7 @@ public class FileProcessor {
     public void parseReviews(String reviewPath){
         findReviewFiles(reviewPath);
         ReviewDriver.insertReviews(reviews);
+        ReviewDriver.setUpWords();
     }
 
 
