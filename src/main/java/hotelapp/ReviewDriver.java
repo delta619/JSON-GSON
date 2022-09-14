@@ -2,6 +2,8 @@ package hotelapp;
 
 import com.sun.source.tree.Tree;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ReviewDriver {
@@ -25,10 +27,14 @@ public class ReviewDriver {
     }
     public static void setUpWords(){
 
+        HashMap<String, Boolean> stopWords = getStopWords();
 
         for (String key: reviewMap.keySet()){
             Review currReview = reviewMap.get(key);
             for (String word: currReview.getReviewTextWords()){
+                if(stopWords.containsKey(word)){
+                    continue;
+                }
                 if(!word_to_reviews.containsKey(word)){
                     TreeSet<Review> emptyReviewsTree = new TreeSet<Review>(new Comparator<Review>() {
                         public int compare(Review r1, Review r2)
@@ -54,8 +60,30 @@ public class ReviewDriver {
             }
     }
 
+    public static HashMap<String, Boolean> getStopWords(){
+        HashMap<String, Boolean> m = new HashMap<>();
+         String WORD_FILE = "input/stop_words.txt";
+        try {
+            File file = new File(WORD_FILE);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                for (String word : line.split("\\s")) {
+                    if (!word.isEmpty())
+                        m.put(word, true);
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+        return m;
+    }
     public void findWords(String word){
-
+        if(!word_to_reviews.containsKey(word)){
+            System.out.println("No results");
+            return;
+        }
 
         for(Review review: word_to_reviews.get(word)){
             System.out.println(review);
