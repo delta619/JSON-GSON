@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Review implements Comparable<Review> {
     private String hotelId;
@@ -12,9 +13,9 @@ public class Review implements Comparable<Review> {
     private String title;
     private String reviewText;
     private String userNickname;
-    private String reviewSubmissionTime;
+    private Date reviewSubmissionTime;
 
-    Review(String hotelId, String reviewId, double ratingOverall, String title, String reviewText, String userNickname, String reviewSubmissionTime){
+    Review(String hotelId, String reviewId, double ratingOverall, String title, String reviewText, String userNickname, Date reviewSubmissionTime){
         this.hotelId = hotelId;
         this.reviewId = reviewId;
         this.ratingOverall = ratingOverall;
@@ -34,6 +35,10 @@ public class Review implements Comparable<Review> {
 
     public String[] getReviewTextWords(){
         return this.reviewText.split(" ");
+    }
+
+    public Date getReviewSubmissionTime(){
+        return this.reviewSubmissionTime;
     }
     @Override
     public String toString() {

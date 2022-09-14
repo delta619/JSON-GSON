@@ -49,6 +49,7 @@ public class ReviewDriver {
     }
     public void findReviewsByHotelId(String hotelId){
         ArrayList<Review> reviews = hotelReviewMap.get(hotelId);
+        reviews.sort(Comparator.comparing(Review::getReviewSubmissionTime));
             for(Review review: reviews){
                 System.out.println(review);
                 System.out.println("**********************");
