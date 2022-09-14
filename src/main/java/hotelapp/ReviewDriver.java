@@ -52,6 +52,10 @@ public class ReviewDriver {
         }
     }
     public void findReviewsByHotelId(String hotelId){
+        if(!hotelReviewMap.containsKey(hotelId)){
+            System.out.println("No Reviews for hotelID - "+hotelId);
+            return;
+        }
         ArrayList<Review> reviews = hotelReviewMap.get(hotelId);
         reviews.sort((r1, r2)-> r2.getReviewSubmissionTime().compareTo(r1.getReviewSubmissionTime()));
             for(Review review: reviews){
@@ -81,7 +85,7 @@ public class ReviewDriver {
     }
     public void findWords(String word){
         if(!word_to_reviews.containsKey(word)){
-            System.out.println("No results");
+            System.out.println("No reviews found with word "+word);
             return;
         }
 
