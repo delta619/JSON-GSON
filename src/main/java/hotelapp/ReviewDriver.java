@@ -30,15 +30,12 @@ public class ReviewDriver {
             Review currReview = reviewMap.get(key);
             for (String word: currReview.getReviewTextWords()){
                 if(!word_to_reviews.containsKey(word)){
-                    System.out.println(word);
                     TreeSet<Review> emptyReviewsTree = new TreeSet<Review>(new Comparator<Review>() {
                         public int compare(Review r1, Review r2)
                                 {
-                                    return Helper.countWords(r2.getReviewText(), word) - Helper.countWords(r1.getReviewText(), word);
+                                    return r1.getReviewId().compareTo(r2.getReviewId());
                                 }
                             });
-
-
                     word_to_reviews.put(word, emptyReviewsTree);
                 }
                     word_to_reviews.get(word).add(currReview);
@@ -53,7 +50,7 @@ public class ReviewDriver {
     }
 
     public void findWords(String word){
-        System.out.println(word_to_reviews.get(word));
+        System.out.println(word_to_reviews.get(word).size());
     }
 
 }
