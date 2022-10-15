@@ -1,15 +1,9 @@
 package hotelapp;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /** The main class for project 1.
@@ -28,15 +22,37 @@ public class HotelSearch {
 
     public static void main(String[] args) {
 
-
-        HashMap<String, String> arg_map =  handleCommandLineArgs(args);  // arguments handled
+        Map<String, String> arg_map =  handleCommandLineArgs(args);  // arguments handled
 
         FileProcessor fp = new FileProcessor();
         Hotel[] hotels = fp.parseHotels(arg_map.get("-hotels"));
-        fp.parseReviews(arg_map.get("-reviews"));
-        HotelDriver hotelDriver = new HotelDriver(hotels);
-        ReviewDriver reviewDriver = new ReviewDriver();
+        HotelHandler hotelHandler = new HotelHandler(hotels);
+        ArrayList<Review> reviews = fp.parseReviews(arg_map.get("-reviews"));
+        ReviewHandler reviewHandler = new ReviewHandler(reviews);
 
+        processUserQueries(hotelHandler, reviewHandler);
+
+    }
+
+
+    static Map<String, String> handleCommandLineArgs(String[] args){
+        Map<String, String> arg_map = new HashMap<>();
+        try {
+            for (int i = 0; i < args.length; i += 2) {
+                if (args[i].startsWith("-")) {
+                    arg_map.put(args[i], args[i + 1]);
+                }
+            }
+            if(arg_map.get("-hotels") ==null || arg_map.get("-reviews")==null){
+                throw new Exception("Some error occurred") ;
+            }
+        }catch (Exception e){
+            System.out.println("Invalid arguments, please try again.");
+        }
+        return arg_map;
+    }
+
+    public static void processUserQueries(HotelHandler hotelHandler, ReviewHandler reviewHandler){
         try{
             Scanner sc = new Scanner(System.in);
             do{
@@ -44,14 +60,14 @@ public class HotelSearch {
                 String[] instruction = sc.nextLine().split(" ");
                 if(instruction.length == 2){
                     switch (instruction[0]){
-                        case "find":
-                            hotelDriver.findHotelId(instruction[1]);
+                        case "f":
+                            System.out.println(hotelHandler.findHotelId(instruction[1]));
                             break;
-                        case "findReviews":
-                            reviewDriver.findReviewsByHotelId(instruction[1]);
+                        case "r":
+                            reviewHandler.findReviewsByHotelId(instruction[1]);
                             break;
-                        case "findWord":
-                            reviewDriver.findWords(instruction[1]);
+                        case "w":
+                            reviewHandler.findWords(instruction[1]);
                             break;
                         default:
                             System.out.println("Please enter a valid instruction.");
@@ -67,24 +83,6 @@ public class HotelSearch {
         } catch (Exception e){
             System.out.println("Something went wrong: " + e.getMessage());
         }
-    }
-
-
-    static HashMap<String, String> handleCommandLineArgs(String[] args){
-        HashMap<String, String> arg_map = new HashMap<>();
-        try {
-            for (int i = 0; i < args.length; i += 2) {
-                if (args[i].startsWith("-")) {
-                    arg_map.put(args[i], args[i + 1]);
-                }
-            }
-            if(arg_map.get("-hotels") ==null || arg_map.get("-reviews")==null){
-                throw new Exception("Some error occurred") ;
-            }
-        }catch (Exception e){
-            System.out.println("Invalid arguments, please try again.");
-        }
-        return arg_map;
     }
 
 }

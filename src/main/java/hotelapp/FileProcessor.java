@@ -1,9 +1,6 @@
 package hotelapp;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,10 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class FileProcessor {
-
 
     public Hotel[] parseHotels(String filepath){
 
@@ -39,29 +34,16 @@ public class FileProcessor {
      return null;
     }
 
-    private static ArrayList<Review> reviews = new ArrayList<>();
-    public static void reviewInsert(String path){
-        Gson gson = new Gson();
-        String hotelsFilePath = new File(path).getAbsolutePath();
-
-        try (FileReader br = new FileReader(hotelsFilePath)) {
-            JsonParser parser = new JsonParser();
-            JsonObject jo = (JsonObject) parser.parse(br);
-            JsonArray jsonArr = jo.getAsJsonObject("reviewDetails").getAsJsonObject("reviewCollection").getAsJsonArray("review");
-            Review[] revs = gson.fromJson(jsonArr, Review[].class);
-            for (Review rev: revs){
-                reviews.add(rev);
-            }
 
 
-        } catch (IOException e) {
-            System.out.println("Could not read the file:" + e);
 
-        }
 
-    }
 
-    public static void findReviewFiles(String directory) {
+
+
+
+    ArrayList<String> reviewPaths = new ArrayList<>();
+    public void findReviewFiles(String directory) {
         Path p = Paths.get(directory);
         try (DirectoryStream<Path> pathsInDir = Files.newDirectoryStream(p)) {
             for (Path path : pathsInDir) {
@@ -70,18 +52,51 @@ public class FileProcessor {
                     findReviewFiles(path.toString());
                 }
                 if (path.toString().endsWith(".json")){
-                    reviewInsert(path.toString());
+                    reviewPaths.add(path.toString());
                 }
             }
         } catch (IOException e) {
             System.out.println("Can not open directory: " + directory);
         }
     }
-    public void parseReviews(String reviewPath){
-        findReviewFiles(reviewPath);
-        ReviewDriver.insertReviews(reviews);
-        ReviewDriver.setUpWords();
-    }
 
+    public ArrayList<Review> parseReviews(String reviewPath){
+
+        findReviewFiles(reviewPath);
+
+        ArrayList<Review> reviews= new ArrayList<>();
+//        System.out.println(reviewPaths);
+
+        for(String s: reviewPaths){
+            System.out.println(s);
+            Gson gson = new Gson();
+            String reviewsFilePath = new File(s).getAbsolutePath();
+
+            try (FileReader br = new FileReader(reviewsFilePath)) {
+                JsonParser parser = new JsonParser();
+                JsonObject jo = (JsonObject) parser.parse(br);
+                JsonArray jsonArr = jo.getAsJsonObject("reviewDetails").getAsJsonObject("reviewCollection").getAsJsonArray("review");
+
+                for(JsonElement e: jsonArr){
+                    JsonObject review = e.getAsJsonObject();
+                    String hotelId = review.get("hotelId").getAsString();
+                    String reviewId = review.get("reviewId").getAsString();
+                    Double ratingOverall = review.get("ratingOverall").getAsDouble();
+                    String title = review.get("title").getAsString();
+                    String reviewText = review.get("reviewText").getAsString();
+                    String nickname = review.get("userNickname").getAsString();
+                    String reviewSubmissionTime = review.get("reviewSubmissionTime").getAsString();
+
+                    Review reviewObj = new Review(hotelId, reviewId, ratingOverall, title, reviewText, nickname, reviewSubmissionTime);
+
+                    reviews.add(reviewObj);
+                }
+            } catch (IOException e) {
+                System.out.println("Could not read the file:" + e);
+            }
+
+        }
+        return reviews;
+    }
 
 }
