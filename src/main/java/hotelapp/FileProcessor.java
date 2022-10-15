@@ -34,14 +34,6 @@ public class FileProcessor {
      return null;
     }
 
-
-
-
-
-
-
-
-
     ArrayList<String> reviewPaths = new ArrayList<>();
     public void findReviewFiles(String directory) {
         Path p = Paths.get(directory);
@@ -65,7 +57,6 @@ public class FileProcessor {
         findReviewFiles(reviewPath);
 
         ArrayList<Review> reviews= new ArrayList<>();
-//        System.out.println(reviewPaths);
 
         for(String s: reviewPaths){
             System.out.println(s);
